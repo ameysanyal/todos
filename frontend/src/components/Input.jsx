@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-
+import { useSnackbar } from 'notistack'
 const Input = (props) => {
 
     const [inputValue, setInputValue] = useState('');
@@ -9,7 +9,17 @@ const Input = (props) => {
         completedtodo: false,
         alltodo: true
     })
-
+    const { enqueueSnackbar } = useSnackbar();
+    const removeAlltodos = () => {
+        axios.delete('http://localhost:2000/todos').then((res) => {
+            console.log(res.data.message)
+            props.onData([]);
+            enqueueSnackbar('Removed All todos Successfully', { variant: 'success' });
+        }).catch((error) => {
+            console.log(error)
+            enqueueSnackbar('Error', { variant: 'error' });
+        })
+    }
 
     useEffect(() => {
 
@@ -45,12 +55,12 @@ const Input = (props) => {
 
 
     return (
-        <div className="bg-zinc-400 flex flex-col items-center p-2 pt-16">
-            <h1 className="text-2xl font-bold p-1">Add Daily Tasks</h1>
+        <div className="bg-purple-950 flex flex-col items-center p-2 pt-16">
+            <h2 className="text-xl text-white font-bold p-1">Add Daily Tasks</h2>
             <div className="flex flex-row items-center">
                 <input type="text" maxLength="70" value={inputValue} placeholder="Enter Here" className="m-2 w-96 h-8 rounded-md" onChange={(e) => setInputValue(e.target.value)} />
 
-                <button className="bg-blue-500 text-white text-lg px-4 h-8 font-bold rounded-md hover:bg-blue-600" onClick={handleclick}>Add</button>
+                <button className="bg-purple-400 text-black text-lg px-4 h-8 font-bold rounded-md hover:bg-purple-500" onClick={handleclick}>Add</button>
             </div>
             <div className='flex justify-evenly w-full p-2'>
                 <button className="bg-blue-500 text-white text-lg px-4 h-8 font-bold rounded-md hover:bg-blue-800" onClick={() => {
@@ -72,6 +82,7 @@ const Input = (props) => {
                         alltodo: false
                     })
                 }} >Done</button>
+                <button className="bg-blue-500 text-white text-lg px-4 h-8 font-bold rounded-md hover:bg-blue-800" onClick={removeAlltodos}>Remove All Todos</button>
             </div>
         </div>
     )

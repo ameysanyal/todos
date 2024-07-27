@@ -31,7 +31,7 @@ const Header = () => {
         <header>
             <div className="fixed flex w-full bg-purple-400 justify-between p-2">
                 <div className="flex items-center">
-                    <img className="h-12 w-12 p-1" src="../logo.svg" alt="" />
+                    <img className="h-12 w-12 p-1" src="./logo.svg" alt="" />
                     <span className="text-2xl font-bold">ToDos</span>
                 </div>
 
@@ -44,3 +44,4 @@ const Header = () => {
 }
 
 export default Header
+

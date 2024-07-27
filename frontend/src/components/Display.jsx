@@ -6,6 +6,7 @@ import { MdEdit } from "react-icons/md";
 import { MdInfo } from "react-icons/md";
 import { MdSave } from "react-icons/md";
 import { MdDone } from "react-icons/md";
+import { useSnackbar } from 'notistack'
 
 const Display = (props) => {
     const [displaytodo, setDisplayTodo] = useState(props.display)
@@ -14,6 +15,7 @@ const Display = (props) => {
     const [info, setInfo] = useState({})
     const [editIndex, setEditIndex] = useState(null);
     const [editValue, setEditValue] = useState("");
+    const { enqueueSnackbar } = useSnackbar();
 
     useEffect(() => {
         setDisplayTodo(props.display);
@@ -24,12 +26,12 @@ const Display = (props) => {
         if (props.displaymode.pendingtodo) {
             return (
                 <>
-                    <div className="bg-yellow-400 h-screen w-screen flex flex-col">
-
-                        <ul className='flex flex-col items-center self-center overflow-y-auto h-96 w-3/4'>
+                    <div className="bg-purple-950 h-screen w-screen flex flex-col items-center">
+                        <h2 className="text-xl font-bold p-1 text-white">Pending Todos</h2>
+                        <ul className='flex flex-col items-center overflow-y-auto h-96 w-3/4'>
                             {displaytodo.map((l, index) => {
 
-                                return !l.donetodo && (<li key={index} className='flex justify-between w-3/4 h-fit bg-blue-400 m-1 p-2 rounded'>
+                                return !l.donetodo && (<li key={index} className='flex justify-between w-3/4 h-fit bg-purple-400 m-1 p-2 rounded'>
                                     {editIndex === index ?
                                         (<>
                                             <input
@@ -37,14 +39,14 @@ const Display = (props) => {
                                                 maxLength="70"
                                                 value={editValue}
                                                 onChange={(e) => setEditValue(e.target.value)}
-                                                className='bg-blue-400 w-full p-2 outline-none border-b-2 border-black'
+                                                className='bg-purple-400 w-full p-2 outline-none border-b-2 border-black'
                                             />
                                             <MdSave className='m-1 cursor-pointer' title="save" size={22} onClick={() => saveTodo(index)} />
                                         </>) :
                                         (
                                             <>
 
-                                                <div>{l.todo}, {`${l.donetodo}`}</div>
+                                                <div>{l.todo}</div>
                                                 <div className='flex justify-end items-center'>
                                                     <MdDone className='m-1 cursor-pointer' title="Mark as Done" size={22} onClick={() => { doneTodo(index) }} />
                                                     <MdInfo className='m-1 cursor-pointer' title="info" size={22} onClick={() => { infoTodo(index) }} />
@@ -66,12 +68,12 @@ const Display = (props) => {
         else if (props.displaymode.completedtodo) {
             return (
                 <>
-                    <div className="bg-yellow-400 h-screen w-screen flex flex-col">
-
-                        <ul className='flex flex-col items-center self-center overflow-y-auto h-96 w-3/4'>
+                    <div className="bg-purple-950 h-screen w-screen flex flex-col items-center">
+                        <h2 className="text-xl font-bold p-1 text-white">Done Todos</h2>
+                        <ul className='flex flex-col items-center overflow-y-auto h-96 w-3/4'>
                             {displaytodo.map((l, index) => {
 
-                                return l.donetodo && (<li key={index} className='flex justify-between w-3/4 h-fit bg-blue-400 m-1 p-2 rounded'>
+                                return l.donetodo && (<li key={index} className='flex justify-between w-3/4 h-fit bg-purple-400 m-1 p-2 rounded'>
                                     {editIndex === index ?
                                         (<>
                                             <input
@@ -79,18 +81,18 @@ const Display = (props) => {
                                                 maxLength="70"
                                                 value={editValue}
                                                 onChange={(e) => setEditValue(e.target.value)}
-                                                className='bg-blue-400 w-full p-2 outline-none border-b-2 border-black'
+                                                className='bg-purple-400 w-full p-2 outline-none border-b-2 border-black'
                                             />
                                             <MdSave className='m-1 cursor-pointer' title="save" size={22} onClick={() => saveTodo(index)} />
                                         </>) :
                                         (
                                             <>
 
-                                                <div>{l.todo}, {`${l.donetodo}`}</div>
+                                                <div>{l.todo}</div>
                                                 <div className='flex justify-end items-center'>
 
                                                     <MdInfo className='m-1 cursor-pointer' title="info" size={22} onClick={() => { infoTodo(index) }} />
-                                                    <MdEdit className='m-1 cursor-pointer' title="edit" size={22} onClick={() => { editTodo(index) }} />
+
                                                     <MdDelete className='m-1 cursor-pointer' title="delete" size={22} onClick={() => { deleteTodo(index) }} />
                                                 </div>
                                             </>)}
@@ -108,13 +110,13 @@ const Display = (props) => {
         else if (props.displaymode.alltodo) {
             return (
                 <>
-                    <div className="bg-yellow-400 h-screen w-screen flex flex-col">
+                    <div className="bg-purple-950 h-screen w-screen flex flex-col items-center">
 
-
-                        <ul className='flex flex-col items-center self-center overflow-y-auto h-96 w-3/4'>
+                        <h2 className="text-xl font-bold p-1 text-white">All Todos</h2>
+                        <ul className='flex flex-col items-center overflow-y-auto h-96 w-3/4'>
                             {displaytodo.map((l, index) => {
 
-                                return <li key={index} className='flex justify-between w-3/4 h-fit bg-blue-400 m-1 p-2 rounded'>
+                                return <li key={index} className='flex justify-between w-3/4 h-fit bg-purple-400 m-1 p-2 rounded'>
                                     {editIndex === index ?
                                         (<>
                                             <input
@@ -122,14 +124,14 @@ const Display = (props) => {
                                                 maxLength="70"
                                                 value={editValue}
                                                 onChange={(e) => setEditValue(e.target.value)}
-                                                className='bg-blue-400 w-full p-2 outline-none border-b-2 border-black'
+                                                className='bg-purple-400 w-full p-2 outline-none border-b-2 border-black'
                                             />
                                             <MdSave className='m-1 cursor-pointer' title="save" size={22} onClick={() => saveTodo(index)} />
                                         </>) :
                                         (
                                             <>
 
-                                                <div>{l.todo}, {`${l.donetodo}`}</div>
+                                                <div>{l.todo}</div>
                                                 <div className='flex justify-end items-center'>
 
                                                     <MdInfo className='m-1 cursor-pointer' title="info" size={22} onClick={() => { infoTodo(index) }} />
@@ -160,10 +162,11 @@ const Display = (props) => {
                 );
                 setDisplayTodo(updatedTodo);
                 props.onData(updatedTodo)
-                console.log(`mark as done`)
+                enqueueSnackbar('Marked as done Successfully', { variant: 'success' });
             }
         ).catch((error) => {
             console.log(`todo not deleted ${error}`)
+            enqueueSnackbar('Error', { variant: 'error' });
         })
 
     }
@@ -229,12 +232,6 @@ const Display = (props) => {
             console.log(`todo not deleted ${error}`)
         })
     };
-
-
-
-    // useEffect(() => {
-    //     props.onData(displaytodo)
-    // }, [props.displaymode])
 
 
     useEffect(() => {
