@@ -5,7 +5,12 @@ const todoSchema = new mongoose.Schema(
         todo: {
             type: String,
             required: true
+        },
+        donetodo: {
+            type: Boolean,
+            default: false
         }
+
     },
     {
         timestamps: true

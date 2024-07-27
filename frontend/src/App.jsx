@@ -5,11 +5,18 @@ import Display from "./components/Display";
 import axios from 'axios';
 function App() {
   const [todoApp, setTodoApp] = useState([])
+  const [displaymode, setDisplaymode] = useState({
+    pendingtodo: false,
+    completedtodo: false,
+    alltodo: true,
+  })
 
   useEffect(() => {
     axios.get("http://localhost:2000/todos")
       .then((res) => {
         setTodoApp(res.data.data); // Adjust based on your API response structure
+        console.log(`donetodo in app compo ${res.data.data}`)
+
       })
       .catch((error) => {
         console.error("Error fetching todos:", error);
@@ -17,12 +24,11 @@ function App() {
   }, []);
 
 
-  console.log(`in app compome ${todoApp}`)
   return (
     <>
       <Header />
-      <Input onData={setTodoApp} input={todoApp} />
-      <Display display={todoApp} onData={setTodoApp} />
+      <Input onData={setTodoApp} input={todoApp} setDisplaymode={setDisplaymode} />
+      <Display display={todoApp} onData={setTodoApp} displaymode={displaymode} />
     </>
   )
 }

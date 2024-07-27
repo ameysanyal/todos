@@ -6,14 +6,14 @@ const router = express.Router();
 
 router.post('/', async (req, res) => {
     try {
-        const { todo } = req.body;
+        const { todo, donetodo } = req.body;
 
         if (!todo) {
             return res.status(400).send({ message: 'Enter a todo' });
         }
 
         const newTodo = new Todo({
-            todo
+            todo, donetodo
         });
 
         const savedTodo = await newTodo.save();
