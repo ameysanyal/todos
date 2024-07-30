@@ -11,7 +11,7 @@ const Input = (props) => {
     })
     const { enqueueSnackbar } = useSnackbar();
     const removeAlltodos = () => {
-        axios.delete('http://localhost:2000/todos').then((res) => {
+        axios.delete('https://todos-backend-z4nv.onrender.com/todos').then((res) => {
             console.log(res.data.message)
             props.onData([]);
             enqueueSnackbar('Removed All todos Successfully', { variant: 'success' });
@@ -33,7 +33,7 @@ const Input = (props) => {
         }
 
         else {
-            axios.post("http://localhost:2000/todos", { todo: inputValue, donetodo: false }).then(
+            axios.post("https://todos-backend-z4nv.onrender.com/todos", { todo: inputValue, donetodo: false }).then(
                 (res) => {
                     // console.log(res)
                     // console.log(res.data)

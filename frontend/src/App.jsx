@@ -12,7 +12,7 @@ function App() {
   })
 
   useEffect(() => {
-    axios.get("http://localhost:2000/todos")
+    axios.get("https://todos-backend-z4nv.onrender.com/todos")
       .then((res) => {
         setTodoApp(res.data.data); // Adjust based on your API response structure
         console.log(`donetodo in app compo ${res.data.data}`)

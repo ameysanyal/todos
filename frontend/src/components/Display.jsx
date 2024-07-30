@@ -155,7 +155,7 @@ const Display = (props) => {
     const doneTodo = (doneIndex) => {
 
         const id = displaytodo[doneIndex]._id
-        axios.put(`http://localhost:2000/todos/${id}`, { donetodo: true }).then(
+        axios.put(`https://todos-backend-z4nv.onrender.com/todos/${id}`, { donetodo: true }).then(
             () => {
                 const updatedTodo = displaytodo.map((item, i) =>
                     i === doneIndex ? { ...item, donetodo: true } : item
@@ -176,7 +176,7 @@ const Display = (props) => {
 
         const id = displaytodo[infoIndex]._id
         console.log(`infotodo ${id}`)
-        axios.get(`http://localhost:2000/todos/${id}`).then(
+        axios.get(`https://todos-backend-z4nv.onrender.com/todos/${id}`).then(
             (res) => {
                 console.log(`in one get ${res.data.todo}`)
                 setShowInfo(true)
@@ -198,7 +198,7 @@ const Display = (props) => {
 
         const id = displaytodo[updateIndex]._id
         console.log(`id:${id}`)
-        axios.put(`http://localhost:2000/todos/${id}`, { todo: editValue }).then(
+        axios.put(`https://todos-backend-z4nv.onrender.com/todos/${id}`, { todo: editValue }).then(
             () => {
 
                 const updatedTodo = displaytodo.map((item, i) => {
@@ -220,7 +220,7 @@ const Display = (props) => {
 
         const id = displaytodo[deleteIndex]._id
         console.log(`id:${id}`)
-        axios.delete(`http://localhost:2000/todos/${id}`).then(
+        axios.delete(`https://todos-backend-z4nv.onrender.com/todos/${id}`).then(
             () => {
                 console.log(`delete todo sucessfully`)
                 const updatedTodo = displaytodo.filter((item, i) => { return i !== deleteIndex });
@@ -235,7 +235,7 @@ const Display = (props) => {
 
 
     useEffect(() => {
-        axios.get("http://localhost:2000/todos")
+        axios.get("https://todos-backend-z4nv.onrender.com/todos")
             .then((res) => {
                 console.log(`donetodo ${res.data.data}`);
                 setDisplayTodo(res.data.data);
