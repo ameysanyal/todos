@@ -55,7 +55,7 @@ const Input = (props) => {
 
 
     return (
-        <div className="bg-purple-950 flex flex-col items-center p-2 pt-16">
+        <div className="bg-purple-950 w-screen flex flex-col items-center p-2 pt-16">
             <h2 className="text-xl text-white font-bold p-1">Add Daily Tasks</h2>
             <div className="flex flex-row items-center">
                 <input type="text" maxLength="70" value={inputValue} placeholder="Enter Here" className="m-2 w-96 h-8 rounded-md" onChange={(e) => setInputValue(e.target.value)} />
