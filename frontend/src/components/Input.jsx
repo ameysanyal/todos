@@ -1,25 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import { useSnackbar } from 'notistack'
+
+import Sure from './Sure';
 const Input = (props) => {
 
     const [inputValue, setInputValue] = useState('');
+    const [showSure, setShowSure] = useState(false)
     const [displaymode, setDisplaymode] = useState({
         pendingtodo: false,
         completedtodo: false,
         alltodo: true
     })
-    const { enqueueSnackbar } = useSnackbar();
-    const removeAlltodos = () => {
-        axios.delete('https://todos-backend-z4nv.onrender.com/todos').then((res) => {
-            console.log(res.data.message)
-            props.onData([]);
-            enqueueSnackbar('Removed All todos Successfully', { variant: 'success' });
-        }).catch((error) => {
-            console.log(error)
-            enqueueSnackbar('Error', { variant: 'error' });
-        })
-    }
 
     useEffect(() => {
 
@@ -82,8 +73,9 @@ const Input = (props) => {
                         alltodo: false
                     })
                 }} >Done</button>
-                <button className="bg-blue-500 text-white text-lg px-4 h-8 font-bold rounded-md hover:bg-blue-800" onClick={removeAlltodos}>Remove All Todos</button>
+                <button className="bg-blue-500 text-white text-lg px-4 h-8 font-bold rounded-md hover:bg-blue-800" onClick={() => { setShowSure(true) }}>Remove All Todos</button>
             </div>
+            {showSure && <Sure onData={props.onData} onClose={() => setShowSure(false)} />}
         </div>
     )
 }

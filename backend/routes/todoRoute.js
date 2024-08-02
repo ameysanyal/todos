@@ -25,7 +25,6 @@ router.post('/', async (req, res) => {
 });
 
 
-
 // route for getting all todo
 
 router.get('/', async (req, res) => {
