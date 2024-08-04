@@ -9,8 +9,8 @@ import { MdDone } from "react-icons/md";
 import { useSnackbar } from 'notistack'
 
 const Display = (props) => {
-    const [displaytodo, setDisplayTodo] = useState(props.display)
-    //displaytodo is an array of objects
+
+    //props.display is an array of objects
     const [showInfo, setShowInfo] = useState(false)
     const [info, setInfo] = useState({})
     const [editIndex, setEditIndex] = useState(null);
@@ -18,7 +18,7 @@ const Display = (props) => {
     const { enqueueSnackbar } = useSnackbar();
 
     useEffect(() => {
-        setDisplayTodo(props.display);
+        props.onData(props.display);
     }, [props.display]);
 
 
@@ -29,7 +29,7 @@ const Display = (props) => {
                     <div className="bg-purple-950 h-screen w-screen flex flex-col items-center">
                         <h2 className="text-xl font-bold p-1 text-white">Pending Todos</h2>
                         <ul className='flex flex-col items-center overflow-y-auto h-96 w-3/4'>
-                            {displaytodo.map((l, index) => {
+                            {props.display.map((l, index) => {
 
                                 return !l.donetodo && (<li key={index} className='flex justify-between w-3/4 h-fit bg-purple-400 m-1 p-2 rounded'>
                                     {editIndex === index ?
@@ -71,7 +71,7 @@ const Display = (props) => {
                     <div className="bg-purple-950 h-screen w-screen flex flex-col items-center">
                         <h2 className="text-xl font-bold p-1 text-white">Done Todos</h2>
                         <ul className='flex flex-col items-center overflow-y-auto h-96 w-3/4'>
-                            {displaytodo.map((l, index) => {
+                            {props.display.map((l, index) => {
 
                                 return l.donetodo && (<li key={index} className='flex justify-between w-3/4 h-fit bg-purple-400 m-1 p-2 rounded'>
                                     {editIndex === index ?
@@ -114,7 +114,7 @@ const Display = (props) => {
 
                         <h2 className="text-xl font-bold p-1 text-white">All Todos</h2>
                         <ul className='flex flex-col items-center overflow-y-auto h-96 w-3/4'>
-                            {displaytodo.map((l, index) => {
+                            {props.display.map((l, index) => {
 
                                 return <li key={index} className='flex justify-between w-3/4 h-fit bg-purple-400 m-1 p-2 rounded'>
                                     {editIndex === index ?
@@ -154,14 +154,14 @@ const Display = (props) => {
 
     const doneTodo = (doneIndex) => {
 
-        const id = displaytodo[doneIndex]._id
+        const id = props.display[doneIndex]._id
         axios.put(`https://todos-backend-z4nv.onrender.com/todos/${id}`, { donetodo: true }).then(
             () => {
-                const updatedTodo = displaytodo.map((item, i) =>
+                const updatedTodo = props.display.map((item, i) =>
                     i === doneIndex ? { ...item, donetodo: true } : item
                 );
-                setDisplayTodo(updatedTodo);
                 props.onData(updatedTodo)
+
                 enqueueSnackbar('Marked as done Successfully', { variant: 'success' });
             }
         ).catch((error) => {
@@ -174,7 +174,7 @@ const Display = (props) => {
 
     const infoTodo = (infoIndex) => {
 
-        const id = displaytodo[infoIndex]._id
+        const id = props.display[infoIndex]._id
         console.log(`infotodo ${id}`)
         axios.get(`https://todos-backend-z4nv.onrender.com/todos/${id}`).then(
             (res) => {
@@ -190,24 +190,24 @@ const Display = (props) => {
 
     const editTodo = (index) => {
         setEditIndex(index);
-        setEditValue(displaytodo[index].todo);
+        setEditValue(props.display[index].todo);
 
     };
 
     const saveTodo = (updateIndex) => {
 
-        const id = displaytodo[updateIndex]._id
+        const id = props.display[updateIndex]._id
         console.log(`id:${id}`)
         axios.put(`https://todos-backend-z4nv.onrender.com/todos/${id}`, { todo: editValue }).then(
             () => {
 
-                const updatedTodo = displaytodo.map((item, i) => {
+                const updatedTodo = props.display.map((item, i) => {
                     if (i === updateIndex) {
                         return { ...item, todo: editValue }
                     }
                     return item
                 })
-                setDisplayTodo(updatedTodo);
+                props.onData(updatedTodo);
                 props.onData(updatedTodo);
                 setEditIndex(null);
             }
@@ -218,13 +218,13 @@ const Display = (props) => {
 
     const deleteTodo = (deleteIndex) => {
 
-        const id = displaytodo[deleteIndex]._id
+        const id = props.display[deleteIndex]._id
         console.log(`id:${id}`)
         axios.delete(`https://todos-backend-z4nv.onrender.com/todos/${id}`).then(
             () => {
                 console.log(`delete todo sucessfully`)
-                const updatedTodo = displaytodo.filter((item, i) => { return i !== deleteIndex });
-                setDisplayTodo(updatedTodo);
+                const updatedTodo = props.display.filter((item, i) => { return i !== deleteIndex });
+                props.onData(updatedTodo);
                 props.onData(updatedTodo)
 
             }
@@ -238,7 +238,7 @@ const Display = (props) => {
         axios.get("https://todos-backend-z4nv.onrender.com/todos")
             .then((res) => {
                 console.log(`donetodo ${res.data.data}`);
-                setDisplayTodo(res.data.data);
+                props.onData(res.data.data);
             })
             .catch((error) => {
                 console.error("Error fetching todos:", error);

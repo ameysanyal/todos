@@ -27,10 +27,11 @@ function App() {
   return (
     <>
       <Header />
-      <Input onData={setTodoApp} input={todoApp} setDisplaymode={setDisplaymode} />
+      <Input onData={setTodoApp} input={todoApp} displaymode={displaymode} setDisplaymode={setDisplaymode} />
       <Display display={todoApp} onData={setTodoApp} displaymode={displaymode} />
     </>
   )
 }
 
 export default App
+
