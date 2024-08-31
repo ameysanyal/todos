@@ -8,6 +8,10 @@ import { MdSave } from "react-icons/md";
 import { MdDone } from "react-icons/md";
 import { useSnackbar } from 'notistack'
 
+import config from "../config.js";
+
+const backendUrl = config.backendUrl;
+
 const Display = (props) => {
 
     //props.display is an array of objects
@@ -155,7 +159,7 @@ const Display = (props) => {
     const doneTodo = (doneIndex) => {
 
         const id = props.display[doneIndex]._id
-        axios.put(`https://todos-backend-z4nv.onrender.com/todos/${id}`, { donetodo: true }).then(
+        axios.put(`${backendUrl}/todos/${id}`, { donetodo: true }).then(
             () => {
                 const updatedTodo = props.display.map((item, i) =>
                     i === doneIndex ? { ...item, donetodo: true } : item
@@ -176,7 +180,7 @@ const Display = (props) => {
 
         const id = props.display[infoIndex]._id
         console.log(`infotodo ${id}`)
-        axios.get(`https://todos-backend-z4nv.onrender.com/todos/${id}`).then(
+        axios.get(`${backendUrl}/todos/${id}`).then(
             (res) => {
                 console.log(`in one get ${res.data.todo}`)
                 setShowInfo(true)
@@ -198,7 +202,7 @@ const Display = (props) => {
 
         const id = props.display[updateIndex]._id
         console.log(`id:${id}`)
-        axios.put(`https://todos-backend-z4nv.onrender.com/todos/${id}`, { todo: editValue }).then(
+        axios.put(`${backendUrl}/todos/${id}`, { todo: editValue }).then(
             () => {
 
                 const updatedTodo = props.display.map((item, i) => {
@@ -220,7 +224,7 @@ const Display = (props) => {
 
         const id = props.display[deleteIndex]._id
         console.log(`id:${id}`)
-        axios.delete(`https://todos-backend-z4nv.onrender.com/todos/${id}`).then(
+        axios.delete(`${backendUrl}/todos/${id}`).then(
             () => {
                 console.log(`delete todo sucessfully`)
                 const updatedTodo = props.display.filter((item, i) => { return i !== deleteIndex });
@@ -235,7 +239,7 @@ const Display = (props) => {
 
 
     useEffect(() => {
-        axios.get("https://todos-backend-z4nv.onrender.com/todos")
+        axios.get(`${backendUrl}/todos`)
             .then((res) => {
                 console.log(`donetodo ${res.data.data}`);
                 props.onData(res.data.data);

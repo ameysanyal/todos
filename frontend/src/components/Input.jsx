@@ -2,6 +2,11 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 
 import Sure from './Sure';
+
+import config from "../config.js";
+
+const backendUrl = config.backendUrl;
+
 const Input = (props) => {
 
     const [inputValue, setInputValue] = useState('');
@@ -20,7 +25,7 @@ const Input = (props) => {
         }
 
         else {
-            axios.post("https://todos-backend-z4nv.onrender.com/todos", { todo: inputValue, donetodo: false }).then(
+            axios.post(`${backendUrl}/todos`, { todo: inputValue, donetodo: false }).then(
                 (res) => {
 
                     console.log(`donetodo ${res.data.donetodo}`)

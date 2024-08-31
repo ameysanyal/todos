@@ -3,6 +3,10 @@ import Header from "./components/Header";
 import Input from "./components/Input";
 import Display from "./components/Display";
 import axios from 'axios';
+import config from "./config";
+
+const backendUrl = config.backendUrl;
+
 function App() {
   const [todoApp, setTodoApp] = useState([])
   const [displaymode, setDisplaymode] = useState({
@@ -12,7 +16,7 @@ function App() {
   })
 
   useEffect(() => {
-    axios.get("https://todos-backend-z4nv.onrender.com/todos")
+    axios.get(`${backendUrl}/todos`)
       .then((res) => {
         setTodoApp(res.data.data); // Adjust based on your API response structure
         console.log(`donetodo in app compo ${res.data.data}`)

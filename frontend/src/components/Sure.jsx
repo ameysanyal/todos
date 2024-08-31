@@ -2,12 +2,16 @@ import React from 'react'
 import { MdOutlineClose } from "react-icons/md"
 import axios from 'axios'
 import { useSnackbar } from 'notistack'
+import config from "../config.js";
+
+const backendUrl = config.backendUrl;
+
 const Sure = ({ onData, onClose }) => {
 
     const { enqueueSnackbar } = useSnackbar();
 
     const sureDelete = () => {
-        axios.delete('https://todos-backend-z4nv.onrender.com/todos').then((res) => {
+        axios.delete(`${backendUrl}/todos`).then((res) => {
             console.log(res.data.message)
             onData([]);
             enqueueSnackbar('Removed All todos Successfully', { variant: 'success' });
